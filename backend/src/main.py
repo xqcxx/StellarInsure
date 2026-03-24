@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import get_settings
-from .routes import auth_router, policies_router, claims_router
+from .routes import auth_router, policies_router
 
 settings = get_settings()
 
@@ -17,7 +17,6 @@ app.add_middleware(
 
 app.include_router(auth_router)
 app.include_router(policies_router)
-app.include_router(claims_router)
 
 
 @app.get("/")
