@@ -1,5 +1,5 @@
 import os
-from typing import List
+from typing import List, Optional
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -12,6 +12,12 @@ class Settings(BaseSettings):
     jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
     
+    stellar_network_passphrase: str = "Test SDF Network ; September 2015"
+    stellar_horizon_url: str = "https://horizon-testnet.stellar.org"
+    stellar_contract_id: Optional[str] = None
+    stellar_admin_secret: Optional[str] = None
+    stellar_admin_public: Optional[str] = None
+
     @property
     def allowed_origins(self) -> List[str]:
         if self.environment == "production":
@@ -24,7 +30,11 @@ class Settings(BaseSettings):
                 "http://127.0.0.1:3000",
                 "http://127.0.0.1:5173",
             ]
-    
+
+    @property
+    def is_testnet(self) -> bool:
+        return "testnet" in self.stellar_horizon_url.lower() or "test" in self.stellar_network_passphrase.lower()
+
     class Config:
         env_file = ".env"
         case_sensitive = False
