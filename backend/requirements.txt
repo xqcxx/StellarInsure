@@ -4,5 +4,6 @@ sqlalchemy
 psycopg2-binary
 redis
 pydantic
+pydantic-settings
 python-dotenv
 alembic
